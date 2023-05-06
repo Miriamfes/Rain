@@ -1,0 +1,15 @@
+if ($obj->result == true){
+			$db_connection->query("COMMIT;");
+		}else{
+			$db_connection->query("ROLLBACK;");
+		}
+$result = $db_connection->prepare("call fillReport_getStageRows(?)");
+		$result->bind_param('i', $employeeId);
+		$result->execute();
+		$result->bind_result($rowName);
+		while($result->fetch())
+		{
+			array_push($rowNames, $rowName);
+		}
+		$result->close();
+		while($db_connection->next_result()) $db_connection->store_result();
